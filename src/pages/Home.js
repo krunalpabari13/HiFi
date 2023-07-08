@@ -26,6 +26,7 @@ const Home = ({ jsondata }) => {
   const currentUser=useSelector((state)=>state.states.currentUser)
   const otherUser=useSelector((state)=>state.states.otherUser)
   const chatdata=useSelector((state)=>state.states.chats)
+  const [datachanged,setdatachanged]=useState(false);
   const logout=useSelector((state)=>state.states.logout)
   const progress=useSelector((state)=>state.states.progress)
   const chatcontainer=useRef()
@@ -49,9 +50,17 @@ const Home = ({ jsondata }) => {
 
     });
     if(currentUser)
-    {
+    {   
       socket.emit("add-user",currentUser)
     }
+
+    // return () => {
+    //   socket.disconnect();
+    // };
+  }
+  },[socket,currentUser]);
+  useEffect(()=>{
+    if(socket){
     socket.on("receive", (msg) => {
       const receivemessage={
 
@@ -60,14 +69,13 @@ const Home = ({ jsondata }) => {
         sender:msg.from
       }
       const updatedarray=[...chatdata,receivemessage]
-      dispatch(actions.setChat(updatedarray))
-    });
 
-    // return () => {
-    //   socket.disconnect();
-    // };
+      dispatch(actions.setChat(updatedarray))
+      // setdatachanged(!datachanged)
+    
+    });
   }
-  },[socket,currentUser]);
+  },[chatdata])
 
   const checkUser=async()=>{
     dispatch(actions.setProgress(30))
@@ -108,6 +116,7 @@ const Home = ({ jsondata }) => {
       });
   
       const betweenchat = await chat.json();
+
       dispatch(actions.setChat(betweenchat));
   
     
@@ -156,8 +165,10 @@ const Home = ({ jsondata }) => {
       text:value,
       sender:currentUser.id
     }
-    const updatedarray=[...chatdata,sendmessage]
+    const updatedarray=[...chatdata]
+    updatedarray.push(sendmessage)
     dispatch(actions.setChat(updatedarray))
+    // setdatachanged(!datachanged)
      
 
   };
@@ -166,11 +177,13 @@ const Home = ({ jsondata }) => {
 
   };
   const handleSelect=(selectedUser)=>{
-    dispatch(actions.setProgress(30))
-    dispatch(actions.setProgress(50))
-    dispatch(actions.setProgress(70))
-    dispatch(actions.setOtherUser(selectedUser))  
-      dispatch(actions.setProgress(100))
+      dispatch(actions.setProgress(30))
+      dispatch(actions.setProgress(50))
+      dispatch(actions.setProgress(70))
+
+      dispatch(actions.setOtherUser(selectedUser))  
+
+       dispatch(actions.setProgress(100))
   } 
   const handleLogout=async()=>{
     socket.disconnect();
@@ -215,9 +228,10 @@ const Home = ({ jsondata }) => {
       <div className=" container  position-relative " >
         <div className="row" style={{height:'90vh'}}>
           <div className="col-4">
-          <div className=" userContainer">
+          <div className=" userContainer ">
             {jsondata.map((users) => {          
-           return users.username !== currentUser.username && ( <div onClick={()=>{handleSelect(users)}} className="box pt-3 ps-3 text-dark " key={users.id}>
+           return users.username !== currentUser.username && ( <div onClick={()=>{handleSelect(users)}} className="box d-flex pt-3 ps-3 text-dark " key={users.id}>
+               <div>
                 <img
                   src={users.avatar_url}
                   alt=""
@@ -225,7 +239,10 @@ const Home = ({ jsondata }) => {
                   id="image"
                   style={{ height: "4rem" }}
                 ></img>
-               <span> {users.username}</span>
+                </div>
+                <div className="" style={{textAlign:'left'}}>
+               <span className=" "  > {users.username}</span>
+              </div>
               </div>)
               })}
           </div>
@@ -248,13 +265,13 @@ const Home = ({ jsondata }) => {
           <div className=" chatContainer " ref={chatcontainer}>
           {chatdata.map((chats) => (
   chats.sender === `${currentUser.id}` ? (
-    <div className=" col-5 ms-auto  mt-5 " style={{textAlign:'right'}}>
+    <div className=" col-5 ms-auto  mt-5 " key={chats._id} style={{textAlign:'right'}}>
       <div className="  text-white chat-message chat-message-right " style={{borderRadius:'2rem 0rem 2rem 2rem',textAlign:'left'}}>
       <span > {chats.text}</span>
       </div>
     </div>
   ) : (
-    <div className="me-auto col-4  mt-5">
+    <div className="me-auto col-4  mt-5" key={chats._id}>
       <div className=" text-white chat-message chat-message-left" style={{borderRadius:'0rem 2rem 2rem 2rem'}}>
         {chats.text}
       </div>
@@ -315,5 +332,4 @@ const Home = ({ jsondata }) => {
     </>
   );
 };
-
-export default Home;
+export default Home

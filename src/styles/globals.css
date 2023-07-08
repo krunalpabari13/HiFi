@@ -91,7 +91,7 @@ body{
     background-color: transparent;
   }
   .chatContainer{
-    height: 80vh;
+    height: 78vh;
     overflow: auto;
     scrollbar-width: thin;
   }
@@ -147,30 +147,42 @@ body{
     display: none !important;
   }
   
-  
+  @media only screen and (max-width:1000px)
+  {
+    html{
+      font-size: 52%;
+    }
+  }
+
   @media only screen and (max-width:900px)
   {
     html{
       font-size: 50%;
     }
   }
-
-  @media only screen and (max-width:500px)
+  @media only screen and (max-width:800px)
   {
     html{
       font-size: 40%;
     }
   }
-  @media only screen and (max-width:400px)
+
+  @media only screen and (max-width:500px)
   {
     html{
       font-size: 35%;
     }
   }
-  @media only screen and (max-width:300px)
+  @media only screen and (max-width:400px)
   {
     html{
       font-size: 30%;
+    }
+  }
+  @media only screen and (max-width:300px)
+  {
+    html{
+      font-size: 25%;
     }
   }
   @media only screen and (max-width:250px)
