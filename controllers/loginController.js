@@ -19,7 +19,7 @@ export default async function loginController(req,res)
                 }
                 const token=await jwt.sign(currentUser,"mychatapplication");
                 const hostname=req.headers.host;
-                
+                console.log("inside login"+hostname)
             
                 const cookieSearialize=serialize('jwt',token,{
                     httpOnly:true,
