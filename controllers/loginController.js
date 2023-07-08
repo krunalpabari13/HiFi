@@ -3,7 +3,7 @@ import bycrpt from 'bcrypt'
 import { serialize } from "cookie";
 import jwt from 'jsonwebtoken'
 export default async function loginController(req,res)
-{   
+{      
     const model=    registerModel();
     const {username,password}=req.body;
    const response= await model.find({username:username});
@@ -18,11 +18,14 @@ export default async function loginController(req,res)
                     avatar_url:response[0].avatar_url
                 }
                 const token=await jwt.sign(currentUser,"mychatapplication");
+                const hostname=req.headers.host;
+                
+            
                 const cookieSearialize=serialize('jwt',token,{
                     httpOnly:true,
                     secure:true,
                     maxAge:86400,
-                    domain:'localhost',
+                    domain:hostname,
                     path:'/'
                 })
                 res.setHeader('Set-Cookie',cookieSearialize)
