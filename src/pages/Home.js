@@ -10,7 +10,7 @@ import LoadingBar from 'react-top-loading-bar';
 
 export const getServerSideProps = async () => {
 
-  const data = await fetch("http://localhost:3000/api/getUsers");
+  const data = await fetch("https://hi-fi-seven.vercel.app/api/getUsers");
   const jsondata = await data.json();
   return {
     props: {
@@ -107,7 +107,7 @@ const Home = ({ jsondata }) => {
         to: otherUser._id
       };
   
-      const chat = await fetch("http://localhost:3000/api/getMessage", {
+      const chat = await fetch("/api/getMessage", {
         method: 'POST',
         body: JSON.stringify(ids),
         headers: {
