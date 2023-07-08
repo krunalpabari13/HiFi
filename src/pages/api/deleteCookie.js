@@ -1,6 +1,7 @@
 import { serialize } from "cookie";
 export default function logout(req,res){
     const hostname=req.headers.host;
+    console.log("inside logout"+hostname)
 const serailizeCookie=    serialize('jwt',null,{
         httpOnly:true,
         secure:true,
