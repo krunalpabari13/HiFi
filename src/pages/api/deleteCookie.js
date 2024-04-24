@@ -6,7 +6,7 @@ const serailizeCookie=    serialize('jwt',null,{
         httpOnly:true,
         secure:true,
         expires:new Date(0),
-        domain:hostname,
+        domain:'localhost',
         path:'/'
     })
     res.setHeader('Set-Cookie',serailizeCookie);

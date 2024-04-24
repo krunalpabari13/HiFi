@@ -93,8 +93,9 @@ export default function Signup() {
         progress={progress}
         onLoaderFinished={()=>dispatch(actions.setProgress(0))}
         />
-
+<h1>21BCP453D_Krunal_Pabari</h1>
     <div className='align-items-center justify-content-center d-flex ' style={{height:'100vh'}}>
+    
        <div className="card " style={{width: '80rem'}}>
         <div className='d-flex container mt-5'>
             <div className=' container'  style={{fontWeight:700, fontSize:'2.4rem',textAlign:'center'}}>Create Account</div>

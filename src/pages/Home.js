@@ -11,6 +11,7 @@ import LoadingBar from 'react-top-loading-bar';
 export const getServerSideProps = async () => {
 
   const data = await fetch("https://hi-fi-seven.vercel.app/api/getUsers");
+
   const jsondata = await data.json();
   return {
     props: {
@@ -81,6 +82,7 @@ const Home = ({ jsondata }) => {
     dispatch(actions.setProgress(30))
     const data=await fetch('/api/getCookie');
     const cookiedata=await data.json();
+
     dispatch(actions.setProgress(60))
     if(cookiedata.currentUser)
     {

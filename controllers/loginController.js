@@ -25,8 +25,8 @@ export default async function loginController(req,res)
                     httpOnly:true,
                     secure:true,
                     maxAge:86400,
-                    domain:hostname,
-                    path:'/'
+                    domain:'localhost',
+                    path:'/' 
                 })
                 res.setHeader('Set-Cookie',cookieSearialize)
             res.status(200).json({success:'Logged In'});}
